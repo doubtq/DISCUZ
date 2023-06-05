@@ -25,10 +25,10 @@ echo "MySQL password:mysql1"
 docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysql1 --name mysql1 mysql:5.7
 docker pull php:7.2-fpm
 echo "PHP name: phpfpm1"
-docker run -d -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link mysql1:mysql --name phpfpm1 php:7.2-fpm >>php.txt
+docker run -d -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link mysql1:mysql --name phpfpm1 php:7.2-fpm >php.txt
 docker pull nginx:1.12.2
 echo "nginx name: nginx1"
-docker run -d -p 80:80 --name nginx1 -v /var/nginx/www/html:/var/www/html --link phpfpm1:phpfpm --name nginx1 nginx:1.12.2 >>2.txt
+docker run -d -p 80:80 --name nginx1 -v /var/nginx/www/html:/var/www/html --link phpfpm1:phpfpm --name nginx1 nginx:1.12.2 >2.txt
 nginxname=`cat $a/2.txt`
 phpname=`cat $a/php.txt`
 sed -i "s/7a7012317cc1/$phpname/" $a/default.conf
