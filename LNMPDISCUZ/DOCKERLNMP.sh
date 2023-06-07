@@ -40,10 +40,8 @@ unzip Discuz_X3.4_GIT_SC_UTF8.zip -d /var/nginx/www/html/
 mv /var/nginx/www/html/dir_SC_UTF8/upload/* /var/nginx/www/html/
 mv /var/nginx/www/html/config/config_global_default.php /var/nginx/www/html/config/config_global.php
 mv /var/nginx/www/html/config/config_ucenter_default.php /var/nginx/www/html/config/config_ucenter.php
-chmod -Rf 777 /var/nginx/www/html/config/
-chmod -Rf 777 /var/nginx/www/html/data/
-chmod -Rf 777 /var/nginx/www/html/uc_client/
-chmod -Rf 777 /var/nginx/www/html/uc_server/
+#修改权限
+/bin/bash $a/htmlpermission.sh
 
 echo "浏览器访问ip地址"
 
