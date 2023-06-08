@@ -37,9 +37,11 @@ docker exec -it $dockername /bin/bash -c 'nginx -t'
 docker exec -it $dockername /bin/bash -c 'nginx -s reload' 
 yum install -y unzip
 unzip Discuz_X3.4_GIT_SC_UTF8.zip -d /var/nginx/www/html/
-mv /var/nginx/www/html/dir_SC_UTF8/upload/* /var/nginx/www/html/
-mv /var/nginx/www/html/config/config_global_default.php /var/nginx/www/html/config/config_global.php
-mv /var/nginx/www/html/config/config_ucenter_default.php /var/nginx/www/html/config/config_ucenter.php
+#移动文件
+#mv /var/nginx/www/html/dir_SC_UTF8/upload/* /var/nginx/www/html/
+#mv /var/nginx/www/html/config/config_global_default.php /var/nginx/www/html/config/config_global.php
+#mv /var/nginx/www/html/config/config_ucenter_default.php /var/nginx/www/html/config/config_ucenter.php
+bash $a/move.sh
 #修改权限
 /bin/bash $a/htmlpermission.sh
 
