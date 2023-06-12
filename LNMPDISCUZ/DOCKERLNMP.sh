@@ -1,22 +1,18 @@
 #!/bin/bash
 #配置yum源
-a=`pwd`
-cp $a/CentOS7.repo /etc/yum.repos.d/CentOS7.repo
+currentfilepath=`pwd`
+cp $currentfilepath/CentOS7.repo /etc/yum.repos.d/CentOS7.repo
 stat1=$?
-cp $a/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
+cp $currentfilepath/docker-ce.repo /etc/yum.repos.d/docker-ce.repo
 stat2=$?
 mkdir ~/.pip
-cp $a/pip.conf ~/.pip/pip.conf
+cp $currentfilepath/pip.conf ~/.pip/pip.conf
 stat3=$?
 let stat=$stat1+$stat2+$stat3
 if ((stat==0)); then
-yum clean all && yum makecache
-yum install -y yum-utils
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-yum remove -y docker docker-io docker-selinux python-docer-py;
-yum install -y docker-ce
+/bin/bash $currentfilepath/yum.sh
 systemctl enable docker
-cp $a/daemon.json /etc/docker/daemon.json
+cp $currentfilepath/daemon.json /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
 docker pull mysql:5.7
@@ -29,21 +25,17 @@ docker run -d -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link mysql1:my
 docker pull nginx:1.12.2
 echo "nginx name: nginx1"
 docker run -d -p 80:80 --name nginx1 -v /var/nginx/www/html:/var/www/html --link phpfpm1:phpfpm --name nginx1 nginx:1.12.2 >2.txt
-nginxname=`cat $a/2.txt`
-phpname=`cat $a/php.txt`
+nginxname=`cat $currentfilepath/2.txt`
+phpname=`cat $currentfilepath/php.txt`
 sed -i "s/7a7012317cc1/$phpname/" $a/default.conf
-docker cp $a/default.conf  $dockername:/etc/nginx/conf.d/default.conf
+docker cp $currentfilepath/default.conf  $dockername:/etc/nginx/conf.d/default.conf
 docker exec -it $dockername /bin/bash -c 'nginx -t' 
 docker exec -it $dockername /bin/bash -c 'nginx -s reload' 
 yum install -y unzip
 unzip Discuz_X3.4_GIT_SC_UTF8.zip -d /var/nginx/www/html/
-#移动文件
-#mv /var/nginx/www/html/dir_SC_UTF8/upload/* /var/nginx/www/html/
-#mv /var/nginx/www/html/config/config_global_default.php /var/nginx/www/html/config/config_global.php
-#mv /var/nginx/www/html/config/config_ucenter_default.php /var/nginx/www/html/config/config_ucenter.php
-bash $a/move.sh
+bash $currentfilepath/move.sh
 #修改权限
-/bin/bash $a/htmlpermission.sh
+/bin/bash $currentfilepath/htmlpermission.sh
 
 echo "浏览器访问ip地址"
 
